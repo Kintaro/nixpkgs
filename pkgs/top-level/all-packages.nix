@@ -1350,6 +1350,8 @@ let
 
   driftnet = callPackage ../tools/networking/driftnet {};
 
+  driftnet = callPackage ../tools/networking/driftnet {};
+
   dropbear = callPackage ../tools/networking/dropbear { };
 
   dtach = callPackage ../tools/misc/dtach { };
