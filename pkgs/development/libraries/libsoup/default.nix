@@ -14,6 +14,8 @@ stdenv.mkDerivation {
     sha256 = "1e01365ac4af3817187ea847f9d3588c27eee01fc519a5a7cb212bb78b0f667b";
   };
 
+  outputs = [ "out" "doc" ];
+
   patchPhase = ''
     patchShebangs libsoup/
   '';
