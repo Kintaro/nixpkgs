@@ -10,6 +10,9 @@ stdenv.mkDerivation rec {
 
   outputs = [ "out" "man" ];
 
+  nativeBuildInputs = [ autoconf ];
+  buildInputs = [ openssl cyrus_sasl db groff ];
+
   buildInputs = [ openssl cyrus_sasl db groff ];
 
   configureFlags =
