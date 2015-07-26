@@ -41,6 +41,8 @@ stdenv.mkDerivation rec {
     inherit sha256;
   };
 
+  patches = [ ./urw-font-files.patch ];
+
   outputs = [ "out" "doc" ];
 
   enableParallelBuilding = true;
@@ -54,12 +56,6 @@ stdenv.mkDerivation rec {
     ++ stdenv.lib.optional cupsSupport cups
     # [] # maybe sometimes jpeg2000 support
     ;
-
-  patches = [
-    ./urw-font-files.patch
-    # fetched from debian's ghostscript 9.15_dfsg-1 (called 020150707~0c0b085.patch there)
-    ./CVE-2015-3228.patch
-  ];
 
   makeFlags = [ "cups_serverroot=$(out)" "cups_serverbin=$(out)/lib/cups" ];
 
@@ -90,7 +86,13 @@ stdenv.mkDerivation rec {
     mkdir -p "$doc/share/ghostscript/${version}"
     mv "$out/share/ghostscript/${version}"/{doc,examples} "$doc/share/ghostscript/${version}/"
 
+<<<<<<< f5fb7a31b28cf65b2b89a83ae3c4588fb886e2c1
+    rm -rf $out/lib/cups/filter/{gstopxl,gstoraster}
+
+    rm -rf $out/share/ghostscript/*/{doc,examples}
+=======
     ln -s "${fonts}" "$out/share/ghostscript/fonts"
+>>>>>>> ghostscript: reduce size significantly, /cc #8990
   '';
 
   meta = {
