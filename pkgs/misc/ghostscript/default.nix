@@ -84,13 +84,7 @@ stdenv.mkDerivation rec {
     mkdir -p "$doc/share/ghostscript/${version}"
     mv "$out/share/ghostscript/${version}"/{doc,examples} "$doc/share/ghostscript/${version}/"
 
-<<<<<<< f5fb7a31b28cf65b2b89a83ae3c4588fb886e2c1
-    rm -rf $out/lib/cups/filter/{gstopxl,gstoraster}
-
-    rm -rf $out/share/ghostscript/*/{doc,examples}
-=======
     ln -s "${fonts}" "$out/share/ghostscript/fonts"
->>>>>>> ghostscript: reduce size significantly, /cc #8990
   '';
 
   meta = {
