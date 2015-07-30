@@ -41,8 +41,7 @@ go.stdenv.mkDerivation (
   (builtins.removeAttrs args [ "goPackageAliases" "disabled" ]) // {
 
   name = "go${go.meta.branch}-${name}";
-  nativeBuildInputs = [ go ]
-    ++ (lib.optional (!dontRenameImports) govers) ++ nativeBuildInputs;
+  nativeBuildInputs = [ go ] ++ (lib.optional (!dontRenameImports) govers);
   buildInputs = [ go ] ++ buildInputs;
 
   configurePhase = args.configurePhase or ''
