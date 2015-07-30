@@ -122,15 +122,15 @@ go.stdenv.mkDerivation (
     if [ -n "$subPackages" ] ; then
         for p in $subPackages ; do
             go test -p $NIX_BUILD_CORES -v $goPackagePath/$p &
-            PIDS+=("$!")
         done
+        PIDS+=("$!")
     else
         pushd go/src
         while read d; do
-            go test -p $NIX_BUILD_CORES -v $d &
-            PIDS+=("$!")
+            go test -p $NIX_BUILD_CORES -v $d
         done < <(find $goPackagePath -type f -name \*_test.go -exec dirname {} \; | sort | uniq)
         popd
+        PIDS+=("$!")
     fi
 
     # Exit on error from the parallel process
@@ -151,7 +151,7 @@ go.stdenv.mkDerivation (
         while read f; do
           echo "$f" | grep -q '^./\(src\|pkg/[^/]*\)/${goPackagePath}' || continue
           mkdir -p "$(dirname "$out/share/go/$f")"
-          cp "$NIX_BUILD_TOP/go/$f" "$out/share/go/$f"
+          cp $NIX_BUILD_TOP/go/$f $out/share/go/$f
         done < <(find . -type f)
         popd
     fi
