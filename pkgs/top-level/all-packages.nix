@@ -3902,6 +3902,8 @@ let
     isl = isl_0_11;
 
     cloog = cloog_0_18_0;
+
+    inherit (darwin) CF;
   }));
 
   gcc5 = lowPrio (wrapCC (callPackage ../development/compilers/gcc/5 {
