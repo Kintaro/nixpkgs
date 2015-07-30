@@ -1693,10 +1693,10 @@ let
   };
 
   mongo-tools = buildFromGitHub {
-    rev    = "4fcfd3e57415de95c0c016def07b95bca63cccb4";
+    rev    = "621464ebd2ba0c6ee373600b0cb7fd4216405550";
     owner  = "mongodb";
     repo   = "mongo-tools";
-    sha256 = "0rm7bnb81hr0byxhvagwv8an1bky882nz68cmm2kbznzyprvhyaa";
+    sha256 = "0hgh5h7bpn5xxnxgmw30fi51l4cb4g029nih8j8m0sr4if0n9vkf";
     buildInputs = [ gopass go-flags mgo openssl tomb ];
     excludedPackages = "vendor";
 
@@ -1830,8 +1830,7 @@ let
     repo = "openssl";
     sha256 = "1033c9vgv9lf8ks0qjy0ylsmx1hizqxa6izalma8vi30np6ka6zn";
     goPackageAliases = [ "github.com/spacemonkeygo/openssl" ];
-    nativeBuildInputs = [ pkgs.pkgconfig ];
-    buildInputs = [ pkgs.openssl ];
+    buildInputs = [ pkgs.pkgconfig pkgs.openssl ];
     propagatedBuildInputs = [ spacelog ];
 
     preBuild = ''
@@ -2210,7 +2209,7 @@ let
     propagatedBuildInputs = [ raw ];
   };
 
-  spacelog = buildGoPackage rec {
+  spacelog = buildFromGitHub {
     rev = "ae95ccc1eb0c8ce2496c43177430efd61930f7e4";
     owner = "spacemonkeygo";
     repo = "spacelog";
