@@ -3863,6 +3863,8 @@ let
     libcCross = if crossSystem != null then libcCross else null;
 
     isl = isl_0_14;
+
+    inherit (darwin) CF;
   }));
 
   gcc49 = lowPrio (wrapCC (callPackage ../development/compilers/gcc/4.9 {
