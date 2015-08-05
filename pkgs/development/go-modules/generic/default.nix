@@ -1,9 +1,6 @@
 { go, govers, lib }:
 
-{ name, buildInputs ? [], nativeBuildInputs ? [], passthru ? {}, preFixup ? ""
-
-# We want parallel builds by default
-, enableParallelBuilding ? true
+{ name, buildInputs ? [], nativeBuildInputs ? [], passthru ? {}
 
 # Disabled flag
 , disabled ? false
@@ -41,7 +38,8 @@ go.stdenv.mkDerivation (
   (builtins.removeAttrs args [ "goPackageAliases" "disabled" ]) // {
 
   name = "go${go.meta.branch}-${name}";
-  nativeBuildInputs = [ go ] ++ (lib.optional (!dontRenameImports) govers);
+  nativeBuildInputs = [ go ]
+    ++ (lib.optional (!dontRenameImports) govers) ++ nativeBuildInputs;
   buildInputs = [ go ] ++ buildInputs;
 
   configurePhase = args.configurePhase or ''
