@@ -786,6 +786,13 @@ let
     sha256 = "165x0p8plr3fwn4r1d11m3pxa3r8dhyk98z7x6ah35lf63jm2cwv";
   };
 
+  golang-petname = buildFromGitHub {
+    rev    = "13f8b3a4326b9a6579358543cffe82713c1d6ce4";
+    owner  = "dustinkirkland";
+    repo   = "golang-petname";
+    sha256 = "1xx6lpv1r2sji8m9w35a2fkr9v4vsgvxrrahcq9bdg75qvadq91d";
+  };
+
   golang_protobuf_extensions = buildGoPackage rec {
     rev = "fc2b8d3a73c4867e51861bbdd5ae3c1f0869dd6a";
     name = "golang-protobuf-extensions-${stdenv.lib.strings.substring 0 7 rev}";
@@ -1244,6 +1251,14 @@ let
     };
   };
 
+  go-sqlite3 = buildFromGitHub {
+    rev    = "b4142c444a8941d0d92b0b7103a24df9cd815e42";
+    date   = "2015-07-29";
+    owner  = "mattn";
+    repo   = "go-sqlite3";
+    sha256 = "0xq2y4am8dz9w9aaq24s1npg1sn8pf2gn4nki73ylz2fpjwq9vla";
+  };
+
   go-syslog = buildFromGitHub {
     rev    = "42a2b573b664dbf281bd48c3cc12c086b17a39ba";
     owner  = "hashicorp";
@@ -1618,6 +1633,18 @@ let
     sha256 = "0rynhjwvacv9ibl2k4fwz0xy71d583ac4p33gm20k9yldqnznc7r";
   };
 
+  lxd = buildFromGitHub {
+    rev    = "22fec6bb6bb5988eb0f1b3532a02ebacfb26cf47";
+    date   = "2015-08-05";
+    owner  = "lxc";
+    repo   = "lxd";
+    sha256 = "1n7fhzl6vrn82r3cqpgqpgq5d5142rnk1cp7vig38323n2yh3749";
+    buildInputs = [
+      gettext-go websocket crypto log15 go-lxc yaml-v2 tomb protobuf pongo2
+      lxd-go-systemd go-uuid tablewriter golang-petname mux go-sqlite3 goproxy
+    ];
+  };
+
   mapstructure = buildFromGitHub {
     rev    = "281073eb9eb092240d33ef253c404f1cca550309";
     owner  = "mitchellh";
@@ -1830,7 +1857,8 @@ let
     repo = "openssl";
     sha256 = "1033c9vgv9lf8ks0qjy0ylsmx1hizqxa6izalma8vi30np6ka6zn";
     goPackageAliases = [ "github.com/spacemonkeygo/openssl" ];
-    buildInputs = [ pkgs.pkgconfig pkgs.openssl ];
+    nativeBuildInputs = [ pkgs.pkgconfig ];
+    buildInputs = [ pkgs.openssl ];
     propagatedBuildInputs = [ spacelog ];
 
     preBuild = ''
@@ -2256,6 +2284,14 @@ let
     owner  = "fatih";
     repo   = "structs";
     sha256 = "0pyrc7svc826g37al3db19n5l4r2m9h1mlhjh3hz2r41xfaqia50";
+  };
+
+  tablewriter = buildFromGitHub {
+    rev    = "bc39950e081b457853031334b3c8b95cdfe428ba";
+    date   = "2015-06-03";
+    owner  = "olekukonko";
+    repo   = "tablewriter";
+    sha256 = "0n4gqjc2dqmnbpqgi9i8vrwdk4mkgyssc7l2n4r5bqx0n3nxpbps";
   };
 
   termbox-go = buildGoPackage rec {
