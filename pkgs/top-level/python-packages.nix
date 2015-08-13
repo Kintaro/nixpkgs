@@ -9467,7 +9467,7 @@ let
     };
 
     propagatedBuildInputs = with self; [
-      pymysql configobj sqlparse prompt_toolkit0_45 pygments click
+      pymysql configobj sqlparse prompt_toolkit pygments click
     ];
 
     meta = {
