@@ -8001,6 +8001,12 @@ let
     developerBuild = true;
   });
 
+  qt5SDK = qtcreator.override {
+    sdkBuild = true;
+    qtLib = qt5Full;
+    withDocumentation = true;
+  };
+
   qtcreator = callPackage ../development/qtcreator {
     qtLib = qt54;
     withDocumentation = true;
