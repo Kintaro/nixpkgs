@@ -23,5 +23,6 @@ import ./make-test.nix ({ pkgs, ...} : {
     $machine->screenshot("lightdm");
     $machine->sendChars("${user.password}\n");
     $machine->waitForWindow("^IceWM ");
+    $machine->screenshot("session");
   '';
 })
