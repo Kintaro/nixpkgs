@@ -163,7 +163,7 @@ self: super: {
   # Jailbreak doesn't get the job done because the Cabal file uses conditionals a lot.
   darcs = (overrideCabal super.darcs (drv: {
     doCheck = false;            # The test suite won't even start.
-    postPatch = "sed -i -e 's|attoparsec .*,|attoparsec,|' -e 's|vector .*,|vector,|' darcs.cabal";
+    patchPhase = "sed -i -e 's|attoparsec .*,|attoparsec,|' -e 's|vector .*,|vector,|' darcs.cabal";
   })).overrideScope (self: super: { zlib = self.zlib_0_5_4_2; });
 
   # https://github.com/massysett/rainbox/issues/1
@@ -204,7 +204,7 @@ self: super: {
   x509-system = if pkgs.stdenv.isDarwin && !pkgs.stdenv.cc.nativeLibc
     then let inherit (pkgs.darwin) security_tool;
       in pkgs.lib.overrideDerivation (addBuildDepend super.x509-system security_tool) (drv: {
-        postPatch = (drv.postPatch or "") + ''
+        patchPhase = (drv.patchPhase or "") + ''
           substituteInPlace System/X509/MacOS.hs --replace security ${security_tool}/bin/security
         '';
       })
@@ -214,7 +214,7 @@ self: super: {
     then super.double-conversion
     else overrideCabal super.double-conversion (drv:
       {
-        postPatch = ''
+        patchPhase = ''
           substituteInPlace double-conversion.cabal --replace stdc++ c++
         '';
       });
@@ -670,10 +670,6 @@ self: super: {
     '';
   });
 
-  # Tests attempt to use NPM to install from the network into
-  # /homeless-shelter. Disabled.
-  purescript = dontCheck super.purescript;
-
   # Broken by GLUT update.
   Monadius = markBroken super.Monadius;
 
@@ -715,7 +711,7 @@ self: super: {
 
   # Already fixed in upstream darcs repo.
   xmonad-contrib = overrideCabal super.xmonad-contrib (drv: {
-    postPatch = ''
+    patchPhase = ''
       sed -i -e '24iimport Control.Applicative' XMonad/Util/Invisible.hs
       sed -i -e '22iimport Control.Applicative' XMonad/Hooks/DebugEvents.hs
     '';
@@ -726,7 +722,7 @@ self: super: {
 
   # Hardcoded include path
   poppler = overrideCabal super.poppler (drv: {
-    postPatch = ''
+    patchPhase = ''
       sed -i -e 's,glib/poppler.h,poppler.h,' poppler.cabal
       sed -i -e 's,glib/poppler.h,poppler.h,' Graphics/UI/Gtk/Poppler/Structs.hsc
     '';
@@ -763,7 +759,9 @@ self: super: {
   # https://github.com/nushio3/doctest-prop/issues/1
   doctest-prop = dontCheck super.doctest-prop;
 
+  # https://github.com/goldfirere/singletons/issues/116
   # https://github.com/goldfirere/singletons/issues/117
+  # https://github.com/goldfirere/singletons/issues/118
   clash-lib = dontDistribute super.clash-lib;
   clash-verilog = dontDistribute super.clash-verilog;
   Frames = dontDistribute super.Frames;
@@ -886,7 +884,8 @@ self: super: {
   # https://github.com/liyang/thyme/issues/36
   thyme = dontCheck super.thyme;
 
-  # https://github.com/k0ral/hbro-contrib/issues/1
+  # https://github.com/k0ral/hbro/issues/15
+  hbro = markBroken super.hbro;
   hbro-contrib = dontDistribute super.hbro-contrib;
 
   # https://github.com/aka-bash0r/multi-cabal/issues/4
@@ -907,7 +906,13 @@ self: super: {
   # https://github.com/GaloisInc/HaNS/pull/8
   hans = appendPatch super.hans ./patches/hans-disable-webserver.patch;
 
-  # https://github.com/athanclark/sets/issues/2
+  # https://github.com/athanclark/commutative/issues/1
+  commutative = dontCheck super.commutative;
+
+  # https://github.com/athanclark/set-with/issues/1
+  set-with = dontCheck super.set-with;
+
+  # https://github.com/athanclark/sets/issues/1
   sets = dontCheck super.sets;
 
   # https://github.com/lens/lens-aeson/issues/18
@@ -960,12 +965,5 @@ self: super: {
       ln -s $lispdir $out/share/emacs/site-lisp
     '';
   });
-
-  # https://github.com/yesodweb/Shelly.hs/issues/106
-  # https://github.com/yesodweb/Shelly.hs/issues/108
-  shelly = dontCheck super.shelly;
-
-  # https://github.com/bos/configurator/issues/22
-  configurator = dontCheck super.configurator;
 
 }
