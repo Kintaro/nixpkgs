@@ -330,10 +330,10 @@ let
   };
 
   cli-go = buildFromGitHub {
-    rev    = "142e6cd241a4dfbf7f07a018f1f8225180018da4";
+    rev    = "v1.2.0";
     owner  = "codegangsta";
     repo   = "cli";
-    sha256 = "1w8naax4gvkkxw5h31a2c2dwniw5hj92nv0hn6ybdlavffyax9h5";
+    sha256 = "1axcpc8wgs0b66dpl36pz97pqbxkgvvbwz1b6rf7gl103jqpii40";
   };
 
   columnize = buildFromGitHub {
@@ -649,11 +649,11 @@ let
   };
 
   glide = buildFromGitHub {
-    rev    = "0.5.0";
+    rev    = "0.4.1";
     owner  = "Masterminds";
     repo   = "glide";
-    sha256 = "10jg3h1zprx2ylmmcvmy94k4pw7lc9a6xfgr2ld8rih642sqg9wh";
-    buildInputs = [ cookoo cli-go go-gypsy vcs ];
+    sha256 = "0237l8s7z1ysfkv3kmw4788fg4kjcq2sh6073bjcwynz3hldkrlr";
+    buildInputs = [ cookoo cli-go go-gypsy ];
   };
 
   gls = buildFromGitHub {
@@ -1062,6 +1062,13 @@ let
     buildInputs = [ oauth2 ];
     propagatedBuildInputs = [ go-querystring ];
     excludedPackages = "examples";
+  };
+
+  go-gypsy = buildFromGitHub {
+    rev    = "42fc2c7ee9b8bd0ff636cd2d7a8c0a49491044c5";
+    owner  = "kylelemons";
+    repo   = "go-gypsy";
+    sha256 = "04iy8rdk19n7i18bqipknrcb8lsy1vr4d1iqyxsxq6rmb7298iwj";
   };
 
   go-homedir = buildFromGitHub {
