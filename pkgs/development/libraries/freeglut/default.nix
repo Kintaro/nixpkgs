@@ -11,14 +11,6 @@ in stdenv.mkDerivation {
 
   buildInputs = [ libXi libXrandr libXxf86vm mesa x11 cmake ];
 
-  postPatch = lib.optionalString stdenv.isDarwin ''
-    substituteInPlace Makefile.am --replace \
-      "SUBDIRS = src include progs doc" \
-      "SUBDIRS = src include doc"
-  '';
-
-  configureFlags = [ "--enable-warnings" ];
-
   meta = with stdenv.lib; {
     description = "Create and manage windows containing OpenGL contexts";
     longDescription = ''
