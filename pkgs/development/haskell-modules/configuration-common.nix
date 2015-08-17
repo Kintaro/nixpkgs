@@ -907,7 +907,13 @@ self: super: {
   # https://github.com/GaloisInc/HaNS/pull/8
   hans = appendPatch super.hans ./patches/hans-disable-webserver.patch;
 
-  # https://github.com/athanclark/sets/issues/2
+  # https://github.com/athanclark/commutative/issues/1
+  commutative = dontCheck super.commutative;
+
+  # https://github.com/athanclark/set-with/issues/1
+  set-with = dontCheck super.set-with;
+
+  # https://github.com/athanclark/sets/issues/1
   sets = dontCheck super.sets;
 
   # https://github.com/lens/lens-aeson/issues/18
