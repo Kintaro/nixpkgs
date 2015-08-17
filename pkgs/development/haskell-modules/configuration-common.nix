@@ -965,49 +965,4 @@ self: super: {
   # https://github.com/yesodweb/Shelly.hs/issues/108
   shelly = dontCheck super.shelly;
 
-  # https://github.com/bos/configurator/issues/22
-  configurator = dontCheck super.configurator;
-
-  # https://github.com/thoughtpolice/hs-ed25519/issues/9
-  ed25519 = markBroken super.ed25519;
-  hackage-repo-tool = dontDistribute super.hackage-repo-tool;
-  hackage-security = dontDistribute super.hackage-security;
-  hackage-security-HTTP = dontDistribute super.hackage-security-HTTP;
-
-  # The cabal files for these libraries do not list the required system dependencies.
-  SDL-image = overrideCabal super.SDL-image (drv: {
-    librarySystemDepends = [ pkgs.SDL pkgs.SDL_image ] ++ drv.librarySystemDepends or [];
-  });
-  SDL-ttf = overrideCabal super.SDL-ttf (drv: {
-    librarySystemDepends = [ pkgs.SDL pkgs.SDL_ttf ];
-  });
-  SDL-mixer = overrideCabal super.SDL-mixer (drv: {
-    librarySystemDepends = [ pkgs.SDL pkgs.SDL_mixer ];
-  });
-  SDL-gfx = overrideCabal super.SDL-gfx (drv: {
-    librarySystemDepends = [ pkgs.SDL pkgs.SDL_gfx ];
-  });
-  SDL-mpeg = overrideCabal super.SDL-mpeg (drv: {
-    configureFlags = (drv.configureFlags or []) ++ [
-      "--extra-lib-dirs=${pkgs.smpeg}/lib"
-      "--extra-include-dirs=${pkgs.smpeg}/include/smpeg"
-    ];
-  });
-
-  # https://github.com/chrisdone/freenect/pull/11
-  freenect = overrideCabal super.freenect (drv: {
-    libraryPkgconfigDepends = [ pkgs.freenect ];
-    prePatch = '' echo "  Pkgconfig-Depends: libfreenect" >> freenect.cabal '';
-  });
-
-  # https://github.com/ivanperez-keera/hcwiid/pull/4
-  hcwiid = overrideCabal super.hcwiid (drv: {
-    configureFlags = (drv.configureFlags or []) ++ [
-      "--extra-lib-dirs=${pkgs.bluez}/lib"
-      "--extra-lib-dirs=${pkgs.cwiid}/lib"
-      "--extra-include-dirs=${pkgs.cwiid}/include"
-      "--extra-include-dirs=${pkgs.bluez}/include"
-    ];
-    prePatch = '' sed -i -e "/Extra-Lib-Dirs/d" -e "/Include-Dirs/d" "hcwiid.cabal" '';
-  });
 }
