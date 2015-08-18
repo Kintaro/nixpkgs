@@ -71,6 +71,8 @@ stdenv.mkDerivation rec {
     ];
 
   doCheck = true;
+  preCheck = "mkdir ./obj";
+  # parallel check sometimes gave: Fatal error: can't create ./obj/whitelst.o
 
   # don't build/install statically linked bin/gs
   buildFlags = "so";
