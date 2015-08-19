@@ -10049,7 +10049,7 @@ let
 
   gotags = callPackage ../development/tools/gotags { };
 
-  golint = callPackage ../development/tools/golint { goPackages = go13Packages; };
+  golint = goPackages.lint;
 
   godep = callPackage ../development/tools/godep { };
 
