@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, intltool, glib, pkgconfig, polkit, python, sqlite }:
+{ stdenv, fetchurl, intltool, glib, pkgconfig, polkit, python3, sqlite }:
 
 let version = "1.0.7"; in
 stdenv.mkDerivation {
@@ -6,10 +6,10 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     sha256 = "0klwr0y3a72xpz6bwv4afbk3vvx5r1av5idhz3mx4p9ssnscb1mi";
-    url = "http://www.freedesktop.org/software/PackageKit/releases/PackageKit-${version}.tar.xz";
+    url = "https://www.freedesktop.org/software/PackageKit/releases/PackageKit-${version}.tar.xz";
   };
 
-  buildInputs = [ glib polkit python ];
+  buildInputs = [ glib polkit python3 ];
   propagatedBuildInputs = [ sqlite ];
   nativeBuildInputs = [ intltool pkgconfig ];
 
