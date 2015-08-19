@@ -13334,6 +13334,8 @@ let
       );
   };
 
+  wtftw = callPackage ../applications/window-managers/wtftw { };
+
   wxhexeditor = callPackage ../applications/editors/wxhexeditor { };
 
   wxcam = callPackage ../applications/video/wxcam {
