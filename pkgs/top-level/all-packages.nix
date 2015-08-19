@@ -13316,8 +13316,7 @@ let
          );
       libs = [ gstreamer gst_plugins_base ] ++ lib.optionals (cfg.enableQuakeLive or false)
              (with xlibs; [ stdenv.cc libX11 libXxf86dga libXxf86vm libXext libXt alsaLib zlib ])
-             ++ lib.optional (enableAdobeFlash && (cfg.enableAdobeFlashDRM or false)) hal-flash
-             ++ lib.optional (config.pulseaudio or false) libpulseaudio;
+             ++ lib.optional (enableAdobeFlash && (cfg.enableAdobeFlashDRM or false)) hal-flash;
       gst_plugins = [ gst_plugins_base gst_plugins_good gst_plugins_bad gst_plugins_ugly gst_ffmpeg ];
       gtk_modules = [ libcanberra ];
     };
