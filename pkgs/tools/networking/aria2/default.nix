@@ -1,5 +1,6 @@
-{ stdenv, fetchFromGitHub, pkgconfig, autoreconfHook, cppunit, libgcrypt
-, c-ares, libxml2, sqlite, zlib }:
+{ stdenv, fetchurl, pkgconfig, autoreconfHook
+, openssl, c-ares, libxml2, sqlite, zlib, libssh2
+}:
 
 stdenv.mkDerivation rec {
   name = "aria2-${version}";
@@ -10,9 +11,8 @@ stdenv.mkDerivation rec {
     sha256 = "0xm4fmap9gp2pz6z01mnnpmazw6pnhzs8qc58181m5ai4gy5ksp2";
   };
 
-  buildInputs = [
-    pkgconfig autoreconfHook cppunit libgcrypt c-ares libxml2 sqlite zlib
-  ];
+  nativeBuildInputs = [ pkgconfig ];
+  buildInputs = [ openssl c-ares libxml2 sqlite zlib libssh2 ];
 
   configureFlags = [ "--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt" ];
 
