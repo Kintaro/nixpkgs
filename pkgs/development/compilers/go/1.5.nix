@@ -1,9 +1,11 @@
-{ stdenv, lib, fetchurl, tzdata, iana_etc, go_1_4, runCommand
-, perl, which, pkgconfig, patch
-, pcre
+{ stdenv, lib, fetchurl, bison, glibc, bash, coreutils, makeWrapper, tzdata, iana_etc, perl
+, go_1_4, runCommand, which, patch
 , Security }:
 
 let
+  loader386 = "${glibc}/lib/ld-linux.so.2";
+  loaderAmd64 = "${glibc}/lib/ld-linux-x86-64.so.2";
+  loaderArm = "${glibc}/lib/ld-linux.so.3";
   goBootstrap = runCommand "go-bootstrap" {} ''
     mkdir $out
     cp -rf ${go_1_4}/* $out/
@@ -23,8 +25,9 @@ stdenv.mkDerivation rec {
   };
 
   # perl is used for testing go vet
-  nativeBuildInputs = [ perl which pkgconfig patch ];
-  buildInputs = [ pcre ];
+  buildInputs = [ bison bash makeWrapper perl which patch ]
+             ++ lib.optionals stdenv.isLinux [ glibc ];
+
   propagatedBuildInputs = lib.optional stdenv.isDarwin Security;
 
   # I'm not sure what go wants from its 'src', but the go installation manual
@@ -56,14 +59,9 @@ stdenv.mkDerivation rec {
     sed -i '/TestShutdownUnix/areturn' src/net/net_test.go
     # Disable the hostname test
     sed -i '/TestHostname/areturn' src/os/os_test.go
+    sed -i 's,/etc/protocols,${iana_etc}/etc/protocols,' src/net/lookup_unix.go
     # ParseInLocation fails the test
     sed -i '/TestParseInSydney/areturn' src/time/format_test.go
-    # Remove the api check as it never worked
-    sed -i '/src\/cmd\/api\/run.go/ireturn nil' src/cmd/dist/test.go
-    # Remove the coverage test as we have removed this utility
-    sed -i '/TestCoverageWithCgo/areturn' src/cmd/go/go_test.go
-
-    sed -i 's,/etc/protocols,${iana_etc}/etc/protocols,' src/net/lookup_unix.go
   '' + lib.optionalString stdenv.isLinux ''
     sed -i 's,/usr/share/zoneinfo/,${tzdata}/share/zoneinfo/,' src/time/zoneinfo_unix.go
   '' + lib.optionalString stdenv.isDarwin ''
@@ -75,9 +73,9 @@ stdenv.mkDerivation rec {
     touch $TMPDIR/group $TMPDIR/hosts $TMPDIR/passwd
   '';
 
+  # TODO: port tools patch
   patches = [
     ./cacert-1.5.patch
-    ./remove-tools-1.5.patch
   ];
 
   GOOS = if stdenv.isDarwin then "darwin" else "linux";
