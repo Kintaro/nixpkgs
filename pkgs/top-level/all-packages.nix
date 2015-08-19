@@ -2564,6 +2564,8 @@ let
 
   p7zip = callPackage ../tools/archivers/p7zip { };
 
+  packagekit = callPackage ../tools/package-management/packagekit { };
+
   pal = callPackage ../tools/misc/pal { };
 
   pandoc = haskell.lib.overrideCabal haskellPackages.pandoc (drv: {
