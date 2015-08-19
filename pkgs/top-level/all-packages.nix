@@ -12633,6 +12633,8 @@ let
 
   RhythmDelay = callPackage ../applications/audio/RhythmDelay { };
 
+  rkt = callPackage ../applications/virtualization/rkt { };
+
   rofi = callPackage ../applications/misc/rofi {
     automake = automake114x;
   };
