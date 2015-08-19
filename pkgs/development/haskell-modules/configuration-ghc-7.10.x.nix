@@ -272,4 +272,7 @@ self: super: {
   # https://github.com/haskell/haddock/issues/427
   haddock = dontCheck super.haddock;
 
+  # The tests in vty-ui do not build, but vty-ui itself builds.
+  vty-ui = enableCabalFlag super.vty-ui "no-tests";
+
 }
