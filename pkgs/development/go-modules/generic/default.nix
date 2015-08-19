@@ -165,7 +165,8 @@ go.stdenv.mkDerivation (
     runHook postInstall
   '';
 
-  disallowedReferences = [ go ] ++ lib.optional (!dontRenameImports) govers;
+  disallowedReferences = lib.optional (!allowGoReference) go
+    ++ lib.optional (!dontRenameImports) govers;
 
   passthru = passthru // lib.optionalAttrs (goPackageAliases != []) { inherit goPackageAliases; };
 
