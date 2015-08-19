@@ -3,7 +3,7 @@
 , freetype, fontconfig, file, alsaLib, nspr, nss, libnotify
 , yasm, mesa, sqlite, unzip, makeWrapper, pysqlite
 , hunspell, libevent, libstartup_notification, libvpx
-, cairo, gstreamer, gst_plugins_base, icu, libpng, jemalloc, libpulseaudio
+, cairo, gstreamer, gst_plugins_base, icu, libpng, jemalloc
 , enableGTK3 ? false
 , debugBuild ? false
 , # If you want the resulting program to call itself "Firefox" instead
@@ -33,9 +33,9 @@ stdenv.mkDerivation rec {
       alsaLib nspr nss libnotify xlibs.pixman yasm mesa
       xlibs.libXScrnSaver xlibs.scrnsaverproto pysqlite
       xlibs.libXext xlibs.xextproto sqlite unzip makeWrapper
-      hunspell libevent libstartup_notification libvpx /* cairo */
-      gstreamer gst_plugins_base icu libpng jemalloc
-      libpulseaudio # only headers are needed
+      hunspell libevent libstartup_notification libvpx cairo
+      gstreamer gst_plugins_base icu libpng
+      jemalloc
     ]
     ++ lib.optional enableGTK3 gtk3;
 
@@ -55,7 +55,7 @@ stdenv.mkDerivation rec {
       "--enable-system-hunspell"
       "--enable-system-pixman"
       "--enable-system-sqlite"
-      #"--enable-system-cairo"
+      "--enable-system-cairo"
       "--enable-gstreamer"
       "--enable-startup-notification"
       "--enable-content-sandbox"            # available since 26.0, but not much info available
