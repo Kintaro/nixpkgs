@@ -23,7 +23,6 @@ in
 
     programs.xfs_quota = {
       projects = mkOption {
-        default = {};
         type = types.attrsOf (types.submodule {
           options = {
             id = mkOption {
@@ -96,7 +95,7 @@ in
         wantedBy = [ "multi-user.target" ];
         after = [ ((replaceChars [ "/" ] [ "-" ] opts.fileSystem) + ".mount") ];
 
-        restartTriggers = [ config.environment.etc.projects.source ];
+        restartTriggers = [ (pkgs.writeText "xfs_quota-project-trigger-${name}" (builtins.toJSON opts)) ];
 
         serviceConfig = {
           Type = "oneshot";
