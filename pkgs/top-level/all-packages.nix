@@ -3887,8 +3887,6 @@ let
     libcCross = if crossSystem != null then libcCross else null;
 
     isl = isl_0_14;
-
-    inherit (darwin) CF;
   }));
 
   gcc49 = lowPrio (wrapCC (callPackage ../development/compilers/gcc/4.9 {
@@ -3906,8 +3904,6 @@ let
     isl = isl_0_11;
 
     cloog = cloog_0_18_0;
-
-    inherit (darwin) CF;
   }));
 
   gcc5 = lowPrio (wrapCC (callPackage ../development/compilers/gcc/5 {
@@ -3923,8 +3919,6 @@ let
     libcCross = if crossSystem != null then libcCross else null;
 
     isl = isl_0_14;
-
-    inherit (darwin) CF;
   }));
 
   gfortran = if !stdenv.isDarwin then gfortran49
