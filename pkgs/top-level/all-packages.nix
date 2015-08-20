@@ -4060,7 +4060,7 @@ let
     inherit (darwin.apple_sdk.frameworks) Security;
   };
 
-  go = go_1_4;
+  go = go_1_5;
 
   go-repo-root = callPackage ../development/tools/misc/go-repo-root { };
 
@@ -8653,7 +8653,7 @@ let
     overrides = (config.goPackageOverrides or (p: {})) pkgs;
   });
 
-  goPackages = go14Packages;
+  goPackages = go15Packages;
 
   ### DEVELOPMENT / LISP MODULES
 
@@ -11062,9 +11062,7 @@ let
   dmtx-utils = callPackage (import ../tools/graphics/dmtx-utils) {
   };
 
-  docker = callPackage ../applications/virtualization/docker {
-    go = go_1_4;
-  };
+  docker = callPackage ../applications/virtualization/docker { };
 
   doodle = callPackage ../applications/search/doodle { };
 
@@ -12469,7 +12467,7 @@ let
     inherit (xorg) libXpm;
   };
 
-  pond = callPackage ../applications/networking/pond { goPackages = go14Packages; };
+  pond = callPackage ../applications/networking/pond { };
 
   ponymix = callPackage ../applications/audio/ponymix { };
 
