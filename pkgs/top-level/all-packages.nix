@@ -1525,7 +1525,7 @@ let
   lp_solve = callPackage ../applications/science/math/lp_solve { };
 
   lprof = callPackage ../tools/graphics/lprof { };
-  
+
   fatresize = callPackage ../tools/filesystems/fatresize {};
 
   fatresize = callPackage ../tools/filesystems/fatresize {};
