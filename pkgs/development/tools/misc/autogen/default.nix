@@ -17,7 +17,8 @@ stdenv.mkDerivation rec {
     # version of guile we are using
     sed -i "s,sed '.*-I.*',sed 's/\\\(^\\\| \\\)-I/\\\1/g',g" configure
 
-    substituteInPlace pkg/libopts/mklibsrc.sh --replace /tmp $TMPDIR
+    # Don't write temporary files outside the build directory
+    sed -i "s,/tmp/mklibsrc-log.tx,$TMPDIR/mklibsrc-log.tx,g" pkg/libopts/mklibsrc.sh
   '';
 
   #doCheck = true; # 2 tests fail because of missing /dev/tty
