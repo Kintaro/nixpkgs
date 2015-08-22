@@ -18,7 +18,7 @@ in stdenv.mkDerivation rec {
   # if that files does not exist, dnsmasq subsequently fails,
   # so we'll use /dev/null.
   #
-  # Also, make sure /var/lib/fan-networking exists before starting dnsmasq.
+  # Also, make sure the state directory before starting dnsmasq.
   buildPhase = ''
     substituteInPlace fanctl \
       --replace '--conf-file= ' \
@@ -27,7 +27,7 @@ in stdenv.mkDerivation rec {
                 '${stateDir}'
 
     sed -i '/dnsmasq -u/i \
-    mkdir -p /var/lib/fan-networking' fanctl
+    mkdir -p ${stateDir}' fanctl
   '';
 
   installPhase = ''
