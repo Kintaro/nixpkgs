@@ -6780,6 +6780,8 @@ let
 
   libbs2b = callPackage ../development/libraries/audio/libbs2b { };
 
+  libbson = callPackage ../development/libraries/libbson { };
+
   libcaca = callPackage ../development/libraries/libcaca { };
 
   libcanberra = callPackage ../development/libraries/libcanberra { };
