@@ -38,6 +38,13 @@ addQtModule() {
                 QML2_IMPORT_PATH="$QML2_IMPORT_PATH${QML2_IMPORT_PATH:+:}$1/lib/qt5/qml";
             fi
         fi
+
+        if [[ -d "$1/share" ]]; then
+            @lndir@/bin/lndir -silent "$1/share" "$qtOut/share"
+            if [[ -n $qtSubmodule ]]; then
+                find "$1/share" -printf 'share/%P\n' >> "$qtOut/nix-support/qt-inputs"
+            fi
+        fi
     fi
 }
 
