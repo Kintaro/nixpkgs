@@ -10142,6 +10142,8 @@ let
 
   sassc = callPackage ../development/tools/sassc { };
 
+  scanmem = callPackage ../tools/misc/scanmem { };
+
   schedtool = callPackage ../os-specific/linux/schedtool { };
 
   sdparm = callPackage ../os-specific/linux/sdparm { };
