@@ -6774,6 +6774,8 @@ let
 
   libavc1394 = callPackage ../development/libraries/libavc1394 { };
 
+  libb2 = callPackage ../development/libraries/libb2 { };
+
   libbluedevil = callPackage ../development/libraries/libbluedevil { };
 
   libbdplus = callPackage ../development/libraries/libbdplus { };
