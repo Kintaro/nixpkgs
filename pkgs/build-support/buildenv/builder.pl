@@ -29,11 +29,9 @@ sub isInPathsToLink {
 # For each activated package, determine what symlinks to create.
 
 my %symlinks;
+$symlinks{""} = ["", 0]; # create root directory
 
-for my $p (@pathsToLink) {
-    $p = "" if $p eq "/";
-    $symlinks{$p} = ["", 0];
-}
+my %priorities;
 
 sub findFiles;
 
