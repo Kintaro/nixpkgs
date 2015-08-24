@@ -7977,11 +7977,6 @@ let
     developerBuild = true;
   });
 
-  qt4SDK = qtcreator.override {
-    sdkBuild = true;
-    qtLib = qt48Full;
-  };
-
   qt53 = callPackage ../development/libraries/qt-5/5.3 {
     mesa = mesa_noglu;
     cups = if stdenv.isLinux then cups else null;
@@ -8000,12 +7995,6 @@ let
     buildTests = true;
     developerBuild = true;
   });
-
-  qt5SDK = qtcreator.override {
-    sdkBuild = true;
-    qtLib = qt5Full;
-    withDocumentation = true;
-  };
 
   qtcreator = callPackage ../development/qtcreator {
     qtLib = qt5Full; # 3.4 only supports qt5; TODO: use modularized qt>=5.4
