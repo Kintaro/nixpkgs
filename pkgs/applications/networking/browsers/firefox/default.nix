@@ -3,11 +3,7 @@
 , freetype, fontconfig, file, alsaLib, nspr, nss, libnotify
 , yasm, mesa, sqlite, unzip, makeWrapper, pysqlite
 , hunspell, libevent, libstartup_notification, libvpx
-<<<<<<< HEAD
 , cairo, gstreamer, gst_plugins_base, icu, libpng, jemalloc
-=======
-, cairo, gstreamer, gst_plugins_base, icu, libpng, jemalloc, libpulseaudio
->>>>>>> 207f51a5e10ccdd97852ab2246ca86339c0724c3
 , enableGTK3 ? false
 , debugBuild ? false
 , # If you want the resulting program to call itself "Firefox" instead
