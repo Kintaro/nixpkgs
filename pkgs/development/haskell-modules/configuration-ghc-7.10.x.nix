@@ -111,6 +111,10 @@ self: super: {
   # Test suite has stricter version bounds
   retry = dontCheck super.retry;
 
+  # test/System/Posix/Types/OrphansSpec.hs:19:13:
+  #    Not in scope: type constructor or class ‘Int32’
+  base-orphans = dontCheck super.base-orphans;
+
   # Test suite fails with time >= 1.5
   http-date = dontCheck super.http-date;
 
@@ -267,5 +271,8 @@ self: super: {
 
   # https://github.com/haskell/haddock/issues/427
   haddock = dontCheck super.haddock;
+
+  # The tests in vty-ui do not build, but vty-ui itself builds.
+  vty-ui = enableCabalFlag super.vty-ui "no-tests";
 
 }

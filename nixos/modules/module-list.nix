@@ -61,7 +61,6 @@
   ./programs/command-not-found/command-not-found.nix
   ./programs/dconf.nix
   ./programs/environment.nix
-  ./programs/info.nix
   ./programs/ibus.nix
   ./programs/kbdlight.nix
   ./programs/light.nix
@@ -75,6 +74,7 @@
   ./programs/venus.nix
   ./programs/wvdial.nix
   ./programs/freetds.nix
+  ./programs/xfs_quota.nix
   ./programs/zsh/zsh.nix
   ./rename.nix
   ./security/apparmor.nix
@@ -279,6 +279,7 @@
   ./services/networking/dnsmasq.nix
   ./services/networking/docker-registry-server.nix
   ./services/networking/ejabberd.nix
+  ./services/networking/fan.nix
   ./services/networking/firefox/sync-server.nix
   ./services/networking/firewall.nix
   ./services/networking/flashpolicyd.nix
@@ -344,7 +345,6 @@
   ./services/networking/tlsdated.nix
   ./services/networking/tox-bootstrapd.nix
   ./services/networking/tvheadend.nix
-  ./services/networking/ubuntu-fan.nix
   ./services/networking/unbound.nix
   ./services/networking/unifi.nix
   ./services/networking/vsftpd.nix
