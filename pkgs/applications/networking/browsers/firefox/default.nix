@@ -65,7 +65,6 @@ stdenv.mkDerivation rec {
       "--disable-necko-wifi" # maybe we want to enable this at some point
       "--disable-installer"
       "--disable-updater"
-      "--disable-pulseaudio"
       "--enable-jemalloc"
     ]
     ++ lib.optional enableGTK3 "--enable-default-toolkit=cairo-gtk3"

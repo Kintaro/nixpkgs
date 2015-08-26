@@ -948,7 +948,7 @@ let
 
   mcrypt = callPackage ../tools/misc/mcrypt { };
 
-  mongodb-tools = callPackage ../tools/misc/mongodb-tools { };
+  mongodb-tools = goPackages.mongo-tools;
 
   mstflint = callPackage ../tools/misc/mstflint { };
 
@@ -1346,6 +1346,8 @@ let
 
   drive = callPackage ../applications/networking/drive { };
 
+  driftnet = callPackage ../tools/networking/driftnet {};
+
   dropbear = callPackage ../tools/networking/dropbear { };
 
   dtach = callPackage ../tools/misc/dtach { };
@@ -1519,6 +1521,8 @@ let
   lp_solve = callPackage ../applications/science/math/lp_solve { };
 
   lprof = callPackage ../tools/graphics/lprof { };
+
+  fatresize = callPackage ../tools/filesystems/fatresize {};
 
   fdk_aac = callPackage ../development/libraries/fdk-aac { };
 
@@ -2148,6 +2152,7 @@ let
   lshw = callPackage ../tools/system/lshw { };
 
   lxc = callPackage ../os-specific/linux/lxc { };
+  lxd = goPackages.lxd;
 
   lzip = callPackage ../tools/compression/lzip { };
 
@@ -2558,6 +2563,8 @@ let
   p2pvc = callPackage ../applications/video/p2pvc {};
 
   p7zip = callPackage ../tools/archivers/p7zip { };
+
+  packagekit = callPackage ../tools/package-management/packagekit { };
 
   pal = callPackage ../tools/misc/pal { };
 
@@ -3711,7 +3718,7 @@ let
     libc = glibc;
     binutils = binutils;
     inherit coreutils zlib;
-    extraPackages = [ libcxx ];
+    extraPackages = [ libcxx libcxxabi ];
     nativeTools = false;
     nativeLibc = false;
   };
@@ -4041,27 +4048,21 @@ let
 
   dotnetPackages = recurseIntoAttrs (callPackage ./dotnet-packages.nix { inherit stdenv fetchNuGet; });
 
-  go_1_0 = callPackage ../development/compilers/go/1.0.nix { };
-
-  go_1_1 =
-    if stdenv.isDarwin then
-      callPackage ../development/compilers/go/1.1-darwin.nix { }
-    else
-      callPackage ../development/compilers/go/1.1.nix { };
-
-  go_1_2 = callPackage ../development/compilers/go/1.2.nix { };
-
-  go_1_3 = callPackage ../development/compilers/go/1.3.nix { };
-
   go_1_4 = callPackage ../development/compilers/go/1.4.nix {
     inherit (darwin.apple_sdk.frameworks) Security;
   };
 
-  go = go_1_4;
+  go_1_5 = callPackage ../development/compilers/go/1.5.nix {
+    inherit (darwin.apple_sdk.frameworks) Security;
+  };
+
+  go = if stdenv.isDarwin
+    then go_1_4 # missing DWARF files during go-1.5 build
+    else go_1_5;
 
   go-repo-root = callPackage ../development/tools/misc/go-repo-root { };
 
-  gox = callPackage ../development/compilers/go/gox.nix { };
+  gox = goPackages.gox;
 
   gprolog = callPackage ../development/compilers/gprolog { };
 
@@ -5822,9 +5823,10 @@ let
   teensy-loader = callPackage ../development/tools/misc/teensy { };
 
   texinfo413 = callPackage ../development/tools/misc/texinfo/4.13a.nix { };
-  texinfo5 = callPackage ../development/tools/misc/texinfo/5.2.nix { };
   texinfo4 = texinfo413;
-  texinfo = texinfo5;
+  texinfo5 = callPackage ../development/tools/misc/texinfo/5.2.nix { };
+  texinfo6 = callPackage ../development/tools/misc/texinfo/6.0.nix { };
+  texinfo = texinfo6;
   texinfoInteractive = appendToName "interactive" (
     texinfo.override { interactive = true; }
   );
@@ -6305,15 +6307,9 @@ let
 
   getdata = callPackage ../development/libraries/getdata { };
 
-  gettext = gettext_0_19;
+  gettext = callPackage ../development/libraries/gettext { };
 
-  gettext_0_17 = callPackage ../development/libraries/gettext/0.17.nix { };
-  gettext_0_18 = callPackage ../development/libraries/gettext/0.18.nix { };
-  gettext_0_19 = callPackage ../development/libraries/gettext { };
-
-  gettextWithExpat = gettext: callPackage ../development/libraries/gettext/expat.nix {
-    inherit gettext;
-  };
+  gettextWithExpat = callPackage ../development/libraries/gettext/expat.nix { };
 
   gd = callPackage ../development/libraries/gd { };
 
@@ -6532,7 +6528,7 @@ let
   };
 
   gtk3 = callPackage ../development/libraries/gtk+/3.x.nix {
-    gettext = gettextWithExpat gettext_0_19;
+    gettext = gettextWithExpat;
   };
 
   gtk = pkgs.gtk2;
@@ -7822,6 +7818,7 @@ let
 
   pcl = callPackage ../development/libraries/pcl {
     vtk = vtkWithQt4;
+    inherit (xorg) libXt;
   };
 
   pcre = callPackage ../development/libraries/pcre {
@@ -8641,16 +8638,6 @@ let
 
   ### DEVELOPMENT / GO MODULES
 
-  go13Packages = recurseIntoAttrs (callPackage ./go-packages.nix {
-    go = go_1_3;
-    buildGoPackage = import ../development/go-modules/generic {
-      go = go_1_3;
-      govers = go13Packages.govers;
-      inherit lib;
-   };
-    overrides = (config.goPackageOverrides or (p: {})) pkgs;
-  });
-
   go14Packages = recurseIntoAttrs (callPackage ./go-packages.nix {
     go = go_1_4;
     buildGoPackage = import ../development/go-modules/generic {
@@ -8661,7 +8648,17 @@ let
     overrides = (config.goPackageOverrides or (p: {})) pkgs;
   });
 
-  goPackages = go14Packages;
+  go15Packages = recurseIntoAttrs (callPackage ./go-packages.nix {
+    go = go_1_5;
+    buildGoPackage = import ../development/go-modules/generic {
+      go = go_1_5;
+      govers = go15Packages.govers;
+      inherit lib;
+    };
+    overrides = (config.goPackageOverrides or (p: {})) pkgs;
+  });
+
+  goPackages = go15Packages;
 
   ### DEVELOPMENT / LISP MODULES
 
@@ -10065,7 +10062,7 @@ let
 
   gotags = callPackage ../development/tools/gotags { };
 
-  golint = callPackage ../development/tools/golint { goPackages = go13Packages; };
+  golint = goPackages.lint;
 
   godep = callPackage ../development/tools/godep { };
 
@@ -10280,7 +10277,7 @@ let
   uclibc = callPackage ../os-specific/linux/uclibc { };
 
   uclibcCross = lowPrio (callPackage ../os-specific/linux/uclibc {
-    inherit fetchurl stdenv libiconvReal;
+    inherit fetchzip stdenv libiconvReal;
     linuxHeaders = linuxHeadersCross;
     gccCross = gccCrossStageStatic;
     cross = assert crossSystem != null; crossSystem;
@@ -11072,9 +11069,7 @@ let
   dmtx-utils = callPackage (import ../tools/graphics/dmtx-utils) {
   };
 
-  docker = callPackage ../applications/virtualization/docker {
-    go = go_1_4;
-  };
+  docker = callPackage ../applications/virtualization/docker { };
 
   doodle = callPackage ../applications/search/doodle { };
 
@@ -11918,7 +11913,9 @@ let
 
   ksuperkey = callPackage ../tools/X11/ksuperkey { };
 
-  kubernetes = callPackage ../applications/networking/cluster/kubernetes { };
+  kubernetes = callPackage ../applications/networking/cluster/kubernetes {
+    go = go_1_4;
+  };
 
   lame = callPackage ../development/libraries/lame { };
 
@@ -12479,7 +12476,7 @@ let
     inherit (xorg) libXpm;
   };
 
-  pond = callPackage ../applications/networking/pond { goPackages = go14Packages; };
+  pond = callPackage ../applications/networking/pond { };
 
   ponymix = callPackage ../applications/audio/ponymix { };
 
@@ -12638,6 +12635,8 @@ let
   });
 
   RhythmDelay = callPackage ../applications/audio/RhythmDelay { };
+
+  rkt = callPackage ../applications/virtualization/rkt { };
 
   rofi = callPackage ../applications/misc/rofi {
     automake = automake114x;
@@ -13292,7 +13291,15 @@ let
          );
       libs = [ gstreamer gst_plugins_base ] ++ lib.optionals (cfg.enableQuakeLive or false)
              (with xlibs; [ stdenv.cc libX11 libXxf86dga libXxf86vm libXext libXt alsaLib zlib ])
+<<<<<<< HEAD
              ++ lib.optional (enableAdobeFlash && (cfg.enableAdobeFlashDRM or false)) hal-flash;
+<<<<<<< HEAD
+=======
+             ++ lib.optional (enableAdobeFlash && (cfg.enableAdobeFlashDRM or false)) hal-flash
+             ++ lib.optional (config.pulseaudio or false) libpulseaudio;
+>>>>>>> 207f51a5e10ccdd97852ab2246ca86339c0724c3
+=======
+>>>>>>> 3c36ffcb117a7791b93bc35c31b3c7210f3fdb01
       gst_plugins = [ gst_plugins_base gst_plugins_good gst_plugins_bad gst_plugins_ugly gst_ffmpeg ];
       gtk_modules = [ libcanberra ];
     };
@@ -14727,6 +14734,8 @@ let
 
   ### MISC
 
+  antimicro = callPackage ../tools/misc/antimicro { };
+
   atari800 = callPackage ../misc/emulators/atari800 { };
 
   ataripp = callPackage ../misc/emulators/atari++ { };
@@ -14971,6 +14980,8 @@ let
   xlockmore = callPackage ../misc/screensavers/xlockmore { };
 
   sails = callPackage ../misc/sails { };
+
+  canon-cups-ufr2 = callPackage ../misc/cups/drivers/canon { };
 
   samsungUnifiedLinuxDriver = import ../misc/cups/drivers/samsung {
     inherit fetchurl stdenv;
