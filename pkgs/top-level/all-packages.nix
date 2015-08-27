@@ -12339,6 +12339,8 @@ let
 
   ncdc = callPackage ../applications/networking/p2p/ncdc { };
 
+  ne = callPackage ../applications/editors/ne { };
+
   nedit = callPackage ../applications/editors/nedit {
     motif = lesstif;
   };
