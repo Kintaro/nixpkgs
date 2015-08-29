@@ -126,26 +126,27 @@ go.stdenv.mkDerivation (
     runHook preInstall
 
     mkdir -p $out
+    pushd "$NIX_BUILD_TOP/go"
+    while read f; do
+      echo "$f" | grep -q '^./\(src\|pkg/[^/]*\)/${goPackagePath}' || continue
+      mkdir -p "$(dirname "$out/share/go/$f")"
+      cp "$NIX_BUILD_TOP/go/$f" "$out/share/go/$f"
+    done < <(find . -type f)
+    popd
 
-    if [ -z "$dontInstallSrc" ]; then
-        pushd "$NIX_BUILD_TOP/go"
-        while read f; do
-          echo "$f" | grep -q '^./\(src\|pkg/[^/]*\)/${goPackagePath}' || continue
-          mkdir -p "$(dirname "$out/share/go/$f")"
-          cp "$NIX_BUILD_TOP/go/$f" "$out/share/go/$f"
-        done < <(find . -type f)
-        popd
-    fi
-
+    mkdir $bin
     dir="$NIX_BUILD_TOP/go/bin"
-    [ -e "$dir" ] && cp -r $dir $out
+    [ -e "$dir" ] && cp -r $dir $bin
+
+    runHook postInstall
+  '';
+
+  preFixup = preFixup + ''
     while read file; do
       cat $file ${removeExpr removeReferences} > $file.tmp
       mv $file.tmp $file
       chmod +x $file
-    done < <(find $out/bin -type f 2>/dev/null)
-
-    runHook postInstall
+    done < <(find $bin/bin -type f 2>/dev/null)
   '';
 
   disallowedReferences = lib.optional (!allowGoReference) go
@@ -154,6 +155,9 @@ go.stdenv.mkDerivation (
   passthru = passthru // lib.optionalAttrs (goPackageAliases != []) { inherit goPackageAliases; };
 
   enableParallelBuilding = enableParallelBuilding;
+
+  # I prefer to call this dev but propagatedBuildInputs expects $out to exist
+  outputs = [ "out" "bin" ];
 
   meta = {
     # Add default meta information
