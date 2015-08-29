@@ -8000,6 +8000,8 @@ let
     buildExamples = true;
     buildTests = true;
     developerBuild = true;
+  qtEnv = callPackage ../development/libraries/qt-5/qt-env.nix {};
+
   });
 
   qt5SDK = qtcreator.override {
