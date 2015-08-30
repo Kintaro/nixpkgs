@@ -971,6 +971,7 @@ self: super: {
   hackage-security = dontDistribute super.hackage-security;
   hackage-security-HTTP = dontDistribute super.hackage-security-HTTP;
 
+<<<<<<< HEAD
   # The cabal files for these libraries do not list the required system dependencies.
   SDL-image = overrideCabal super.SDL-image (drv: {
     librarySystemDepends = [ pkgs.SDL pkgs.SDL_image ] ++ drv.librarySystemDepends or [];
@@ -1017,4 +1018,6 @@ self: super: {
   # https://github.com/agocorona/MFlow/issues/63
   MFlow = addBuildTool super.MFlow self.cpphs;
 
+=======
+>>>>>>> f273dd1043f46174b768ff4ebb7118cd03acaec8
 }
