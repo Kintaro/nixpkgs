@@ -958,7 +958,7 @@
   };
 
   neorg = super.neorg.overrideAttrs {
-    dependencies = with self; [ plenary-nvim ];
+    dependencies = with self; [ luaPackages.lua-utils-nvim plenary-nvim ];
   };
 
   neotest = super.neotest.overrideAttrs {
