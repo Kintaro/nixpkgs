@@ -3292,30 +3292,6 @@ buildLuarocksPackage {
   };
 }) {};
 
-rocks-nvim = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, fidget-nvim, fzy, lua, luaOlder, nvim-nio, toml-edit }:
-buildLuarocksPackage {
-  pname = "rocks.nvim";
-  version = "2.21.1-1";
-  knownRockspec = (fetchurl {
-    url    = "mirror://luarocks/rocks.nvim-2.21.1-1.rockspec";
-    sha256 = "0qf0hbknn87y6fp49r9810fbnwprv6rmwdqj96c8iibxg7qzda23";
-  }).outPath;
-  src = fetchzip {
-    url    = "https://github.com/nvim-neorocks/rocks.nvim/archive/v2.21.1.zip";
-    sha256 = "1va06snki6m93hs62ypy94chcjvg09pilqiivvr401vp2jzsmydx";
-  };
-
-  disabled = (luaOlder "5.1");
-  propagatedBuildInputs = [ fidget-nvim fzy lua nvim-nio toml-edit ];
-
-  meta = {
-    homepage = "https://github.com/nvim-neorocks/rocks.nvim";
-    description = "Neovim plugin management inspired by Cargo, powered by luarocks";
-    maintainers = with lib.maintainers; [ mrcjkb ];
-    license.fullName = "GPL-3.0";
-  };
-}) {};
-
 rustaceanvim = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, lua, luaOlder }:
 buildLuarocksPackage {
   pname = "rustaceanvim";
