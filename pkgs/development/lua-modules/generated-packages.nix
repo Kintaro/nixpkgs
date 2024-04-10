@@ -1,5 +1,5 @@
 /* pkgs/development/lua-modules/generated-packages.nix is an auto-generated file -- DO NOT EDIT!
-Regenerate it with: nix run nixpkgs#luarocks-packages-updater
+Regenerate it with: nix run nixpkgs#update-luarocks-packages
 You can customize the generated packages in pkgs/development/lua-modules/overrides.nix
 */
 
@@ -713,7 +713,7 @@ buildLuarocksPackage {
   pname = "image.nvim";
   version = "1.2.0-1";
   knownRockspec = (fetchurl {
-    url    = "mirror://luarocks/image.nvim-1.2.0-1.rockspec";
+    url    = "https://raw.githubusercontent.com/rocks-moonscript-org/moonrocks-mirror/master/image.nvim-1.2.0-1.rockspec";
     sha256 = "0732fk2p2v9f72689jms4pdjsx9m7vdi1ib65jfz7q4lv9pdx508";
   }).outPath;
   src = fetchzip {
@@ -1924,7 +1924,7 @@ buildLuarocksPackage {
   pname = "luadbi-mysql";
   version = "0.7.3-1";
   knownRockspec = (fetchurl {
-    url    = "mirror://luarocks/luadbi-mysql-0.7.3-1.rockspec";
+    url    = "https://raw.githubusercontent.com/rocks-moonscript-org/moonrocks-mirror/master/luadbi-mysql-0.7.3-1.rockspec";
     sha256 = "1x0pl6qpdi4vmhxs2076kkxmikbv0asndh8lp34r47lym37hcrr3";
   }).outPath;
   src = fetchgit ( removeAttrs (builtins.fromJSON ''{
@@ -2902,6 +2902,30 @@ buildLuarocksPackage {
     homepage = "https://github.com/libmpack/libmpack-lua";
     description = "Lua binding to libmpack";
     license.fullName = "MIT";
+  };
+}) {};
+
+neorg = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, lua, lua-utils-nvim, luaOlder, nui-nvim, nvim-nio, pathlib-nvim, plenary-nvim }:
+buildLuarocksPackage {
+  pname = "neorg";
+  version = "8.4.0-1";
+  knownRockspec = (fetchurl {
+    url    = "mirror://luarocks/neorg-8.4.0-1.rockspec";
+    sha256 = "1dfdb77gmh3jkd7ibrmvrvx68rp5pzynaryppyjfaqikbdba4gqz";
+  }).outPath;
+  src = fetchzip {
+    url    = "https://github.com/nvim-neorg/neorg/archive/v8.4.0.zip";
+    sha256 = "1vsf6s4fn6z8hh2al8ahkqg719pz73rmyigl8cjzprcd07i2687f";
+  };
+
+  disabled = (luaOlder "5.1");
+  propagatedBuildInputs = [ lua lua-utils-nvim nui-nvim nvim-nio pathlib-nvim plenary-nvim ];
+
+  meta = {
+    homepage = "https://github.com/nvim-neorg/neorg";
+    description = "Modernity meets insane extensibility. The future of organizing your life in Neovim.";
+    maintainers = with lib.maintainers; [ GaetanLepage ];
+    license.fullName = "GPL-3.0";
   };
 }) {};
 
